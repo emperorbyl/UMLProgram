@@ -11,13 +11,13 @@ namespace UMLProgram
 {
     public class Drawing
     {
-        private static readonly DataContractJsonSerializer JsonSerializer = new DataContractJsonSerializer(typeof(List<TreeExtrinsicState>));
+        private static readonly DataContractJsonSerializer JsonSerializer = new DataContractJsonSerializer(typeof(List<SymbolExtrinsicState>));
 
-        private readonly List<Tree> _trees = new List<Tree>();
+        private readonly List<Symbol> _trees = new List<Symbol>();
 
         private readonly object _myLock = new object();
 
-        public Tree SelectedTree { get; set; }
+        public Symbol SelectedTree { get; set; }
         public bool IsDirty { get; set; }
 
         public void Clear()
@@ -29,7 +29,7 @@ namespace UMLProgram
             }
         }
 
-        public void Add(Tree tree)
+        public void Add(Symbol tree)
         {
             if (tree != null)
             {
@@ -41,7 +41,7 @@ namespace UMLProgram
             }
         }
 
-        public void RemoveTree(Tree tree)
+        public void RemoveTree(Symbol tree)
         {
             if (tree != null)
             {
@@ -68,9 +68,9 @@ namespace UMLProgram
             IsDirty = true;
         }
 
-        public Tree FindTreeAtPosition(Point location)
+        public Symbol FindTreeAtPosition(Point location)
         {
-            Tree result;
+            Symbol result;
             lock (_myLock)
             {
                 result = _trees.FindLast(t => location.X >= t.Location.X &&
@@ -128,15 +128,15 @@ namespace UMLProgram
 
         public void LoadFromStream(Stream stream)
         {
-            var extrinsicStates = JsonSerializer.ReadObject(stream) as List<TreeExtrinsicState>;
+            var extrinsicStates = JsonSerializer.ReadObject(stream) as List<SymbolExtrinsicState>;
             if (extrinsicStates == null) return;
 
             lock (_myLock)
             {
                 _trees.Clear();
-                foreach (TreeExtrinsicState extrinsicState in extrinsicStates)
+                foreach (SymbolExtrinsicState extrinsicState in extrinsicStates)
                 {
-                    Tree tree = TreeFactory.Instance.GetTree(extrinsicState);
+                    Symbol tree = SymbolFactory.Instance.GetTree(extrinsicState);
                     _trees.Add(tree);
                 }
                 IsDirty = true;
@@ -145,12 +145,12 @@ namespace UMLProgram
 
         public void SaveToStream(Stream stream)
         {
-            var extrinsicStates = new List<TreeExtrinsicState>();
+            var extrinsicStates = new List<SymbolExtrinsicState>();
             lock (_myLock)
             {
-                foreach (Tree tree in _trees)
+                foreach (Symbol tree in _trees)
                 {
-                    TreeWithAllState t = tree as TreeWithAllState;
+                    SymbolWithAllState t = tree as SymbolWithAllState;
                     if (t != null)
                         extrinsicStates.Add(t.ExtrinsicStatic);
                 }

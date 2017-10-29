@@ -52,13 +52,13 @@ namespace UMLProgram
             };
             var treeLocation = new Point(_location.X - treeSize.Width / 2, _location.Y - treeSize.Height / 2);
 
-            var extrinsicState = new TreeExtrinsicState()
+            var extrinsicState = new SymbolExtrinsicState()
             {
                 TreeType = _treeType,
                 Location = treeLocation,
                 Size = treeSize
             };
-            var tree = TreeFactory.Instance.GetTree(extrinsicState);
+            var tree = SymbolFactory.Instance.GetTree(extrinsicState);
             TargetDrawing.Add(tree);
         }
     }

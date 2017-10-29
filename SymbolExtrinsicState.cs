@@ -9,7 +9,7 @@ using System.Runtime.Serialization;
 namespace UMLProgram
 {
     [DataContract]
-    public class TreeExtrinsicState
+    public class SymbolExtrinsicState
     {
         [DataMember]
         public string TreeType { get; set; }

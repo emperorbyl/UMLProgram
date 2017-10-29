@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace UMLProgram
 {
-    internal class TreeWithIntrinsicState : Tree
+    internal class SymbolWithIntrinsicState : Symbol
     {
         public static Color SelectionBackgroundColor { get; set; } = Color.DarkKhaki;
         public string TreeType { get; set; }

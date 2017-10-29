@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Globalization;
 
 namespace UMLProgram
 {
@@ -31,8 +32,8 @@ namespace UMLProgram
         {
             InitializeComponent();
 
-            TreeFactory.Instance.ResourceNamePattern = @"Graphics.{0}.png";
-            TreeFactory.Instance.ReferenceType = typeof(Program);
+            SymbolFactory.Instance.ResourceNamePattern = @"Graphics.{0}.png";
+            SymbolFactory.Instance.ReferenceType = typeof(Program);
 
             _drawing = new Drawing();
             CommandFactory.Instance.TargetDrawing = _drawing;
@@ -196,18 +197,5 @@ namespace UMLProgram
             _drawing.RemoveSelectedTree();
         }
 
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // MainForm
-            // 
-            this.ClientSize = new System.Drawing.Size(282, 253);
-            this.Name = "MainForm";
-            this.ResumeLayout(false);
-
-        }
-    }
-}
     }
 }

@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace UMLProgram
 {
-    public abstract class Tree
+    public abstract class Symbol
     {
         public static Pen SelectedPen { get; set; } = new Pen(Color.DarkGray);
         public static Brush HandlesBrush { get; set; } = new SolidBrush(Color.Black);

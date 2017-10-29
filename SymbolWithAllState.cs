@@ -7,12 +7,12 @@ using System.Drawing;
 
 namespace UMLProgram
 {
-    public class TreeWithAllState : Tree
+    public class SymbolWithAllState : Symbol
     {
-        internal TreeWithIntrinsicState IntrinsicState { get; }
-        public TreeExtrinsicState ExtrinsicStatic { get; }
+        internal SymbolWithIntrinsicState IntrinsicState { get; }
+        public SymbolExtrinsicState ExtrinsicStatic { get; }
 
-        internal TreeWithAllState(TreeWithIntrinsicState sharedPart, TreeExtrinsicState nonsharedPart)
+        internal SymbolWithAllState(SymbolWithIntrinsicState sharedPart, SymbolExtrinsicState nonsharedPart)
         {
             IntrinsicState = sharedPart;                // From a decorator perspective, this is the decorated object
             ExtrinsicStatic = nonsharedPart;            // From a decorator perspective, this is the added feature or

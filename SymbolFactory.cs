@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace UMLProgram
 {
-    public class TreeFactory
+    public class SymbolFactory
     {
-        private static TreeFactory _instance;
+        private static SymbolFactory _instance;
         private static readonly object MyLock = new object();
 
-        private TreeFactory() { }
+        private SymbolFactory() { }
 
-        public static TreeFactory Instance
+        public static SymbolFactory Instance
         {
             get
             {
                 lock (MyLock)
                 {
                     if (_instance == null)
-                        _instance = new TreeFactory();
+                        _instance = new SymbolFactory();
                 }
                 return _instance;
             }
@@ -29,23 +29,23 @@ namespace UMLProgram
         public string ResourceNamePattern { get; set; }
         public Type ReferenceType { get; set; }
 
-        private readonly Dictionary<string, TreeWithIntrinsicState> _sharedTrees = new Dictionary<string, TreeWithIntrinsicState>();
+        private readonly Dictionary<string, SymbolWithIntrinsicState> _sharedTrees = new Dictionary<string, SymbolWithIntrinsicState>();
 
-        public TreeWithAllState GetTree(TreeExtrinsicState extrinsicState)
+        public SymbolWithAllState GetTree(SymbolExtrinsicState extrinsicState)
         {
             string resourceName = string.Format(ResourceNamePattern, extrinsicState.TreeType);
 
-            TreeWithIntrinsicState treeWithIntrinsicState;
+            SymbolWithIntrinsicState treeWithIntrinsicState;
             if (_sharedTrees.ContainsKey(extrinsicState.TreeType))
                 treeWithIntrinsicState = _sharedTrees[extrinsicState.TreeType];
             else
             {
-                treeWithIntrinsicState = new TreeWithIntrinsicState();
+                treeWithIntrinsicState = new SymbolWithIntrinsicState();
                 treeWithIntrinsicState.LoadFromResource(resourceName, ReferenceType);
                 _sharedTrees.Add(extrinsicState.TreeType, treeWithIntrinsicState);
             }
 
-            return new TreeWithAllState(treeWithIntrinsicState, extrinsicState);
+            return new SymbolWithAllState(treeWithIntrinsicState, extrinsicState);
         }
     }
 }
