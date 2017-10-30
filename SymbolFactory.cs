@@ -31,7 +31,7 @@ namespace UMLProgram
 
         private readonly Dictionary<string, SymbolWithIntrinsicState> _sharedTrees = new Dictionary<string, SymbolWithIntrinsicState>();
 
-        public SymbolWithAllState GetTree(SymbolExtrinsicState extrinsicState)
+        public SymbolWithAllState GetSymbol(SymbolExtrinsicState extrinsicState)
         {
             string resourceName = string.Format(ResourceNamePattern, extrinsicState.TreeType);
 

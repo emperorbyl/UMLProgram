@@ -22,5 +22,15 @@ namespace UMLProgram
 
         [DataMember]
         public bool IsSelected { get; set; }
+        public SymbolExtrinsicState Clone()
+        {
+            return new SymbolExtrinsicState()
+            {
+                TreeType = TreeType,
+                Location = Location,
+                Size = Size,
+                IsSelected = IsSelected
+            };
+        }
     }
 }

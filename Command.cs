@@ -10,6 +10,8 @@ namespace UMLProgram
     {
         public Drawing TargetDrawing { get; set; }      // "Receiver" in the Command Pattern
 
-        public abstract void Execute();
+        public abstract bool Execute();
+        internal abstract void Undo();                
+        internal abstract void Redo();
     }
 }

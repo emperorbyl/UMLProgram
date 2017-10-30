@@ -16,11 +16,23 @@ namespace UMLProgram
                 _filename = commandParameters[0] as string;
         }
 
-        public override void Execute()
+        public override bool Execute()
         {
             StreamWriter writer = new StreamWriter(_filename);
             TargetDrawing?.SaveToStream(writer.BaseStream);
             writer.Close();
+
+            return true;
+        }
+
+        internal override void Undo()
+        {
+            // Do nothing -- we don't want to delete the saved file.
+        }
+
+        internal override void Redo()
+        {
+            Execute();
         }
     }
 }

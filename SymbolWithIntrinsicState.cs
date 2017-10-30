@@ -16,6 +16,10 @@ namespace UMLProgram
         public Bitmap Image { get; private set; }
         public Bitmap ToolImage { get; private set; }
         public Bitmap ToolImageSelected { get; private set; }
+        public override Element Clone()
+        {
+            return this;        // Don't really clone
+        }
 
         public void LoadFromResource(string treeType, Type referenceTypeForAssembly)
         {

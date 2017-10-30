@@ -4,68 +4,67 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Runtime.Serialization;
 
 namespace UMLProgram
 {
     public class SymbolWithAllState : Symbol
     {
+        public Pen OutlinePen { get; set; } = new Pen(Color.DarkGray);
         internal SymbolWithIntrinsicState IntrinsicState { get; }
-        public SymbolExtrinsicState ExtrinsicStatic { get; }
+        [DataMember]
+        public SymbolExtrinsicState ExtrinsicState { get; set; }
 
         internal SymbolWithAllState(SymbolWithIntrinsicState sharedPart, SymbolExtrinsicState nonsharedPart)
         {
             IntrinsicState = sharedPart;                // From a decorator perspective, this is the decorated object
-            ExtrinsicStatic = nonsharedPart;            // From a decorator perspective, this is the added feature or
+            ExtrinsicState = nonsharedPart;            // From a decorator perspective, this is the added feature or
                                                         // capability that this object (a decorator) is adding
         }
 
         public override bool IsSelected
         {
-            get { return ExtrinsicStatic.IsSelected; }
-            set { ExtrinsicStatic.IsSelected = value; }
+            get { return ExtrinsicState.IsSelected; }
+            set { ExtrinsicState.IsSelected = value; }
         }
 
         public override Point Location
         {
-            get { return ExtrinsicStatic.Location; }
-            set { ExtrinsicStatic.Location = value; }
+            get { return ExtrinsicState.Location; }
+            set { ExtrinsicState.Location = value; }
         }
 
 
         public override Size Size
         {
-            get { return ExtrinsicStatic.Size; }
-            set { ExtrinsicStatic.Size = value; }
+            get { return ExtrinsicState.Size; }
+            set { ExtrinsicState.Size = value; }
         }
-
+        public override Element Clone()
+        {
+            return new SymbolWithAllState(IntrinsicState, ExtrinsicState = ExtrinsicState.Clone());
+        }
         public override void Draw(Graphics graphics)
         {
             if (graphics == null || IntrinsicState?.Image == null) return;
 
             graphics.DrawImage(IntrinsicState.Image,
-                new Rectangle(ExtrinsicStatic.Location.X, ExtrinsicStatic.Location.Y, ExtrinsicStatic.Size.Width, ExtrinsicStatic.Size.Height),
+                new Rectangle(ExtrinsicState.Location.X, ExtrinsicState.Location.Y, ExtrinsicState.Size.Width, ExtrinsicState.Size.Height),
                 0, 0, IntrinsicState.Image.Width, IntrinsicState.Image.Height,
                 GraphicsUnit.Pixel);
 
-            if (ExtrinsicStatic.IsSelected)
+            if (ExtrinsicState.IsSelected)
             {
-                graphics.DrawRectangle(
-                    SelectedPen,
-                    ExtrinsicStatic.Location.X,
-                    ExtrinsicStatic.Location.Y,
-                    ExtrinsicStatic.Size.Width,
-                    ExtrinsicStatic.Size.Height);
-
-                DrawActionHandle(graphics, ExtrinsicStatic.Location.X, ExtrinsicStatic.Location.Y);
-                DrawActionHandle(graphics, ExtrinsicStatic.Location.X + ExtrinsicStatic.Size.Width, ExtrinsicStatic.Location.Y);
-                DrawActionHandle(graphics, ExtrinsicStatic.Location.X, ExtrinsicStatic.Location.Y + ExtrinsicStatic.Size.Height);
-                DrawActionHandle(graphics, ExtrinsicStatic.Location.X + ExtrinsicStatic.Size.Width, ExtrinsicStatic.Location.Y + ExtrinsicStatic.Size.Height);
+                var g = new GraphicsWithSelection() { MyGraphics = graphics };
+                g.DrawSelectionBox(ExtrinsicState.Location, ExtrinsicState.Size);
             }
         }
-
-        private void DrawActionHandle(Graphics graphics, int x, int y)
+        public override bool ContainsPoint(Point point)
         {
-            graphics.FillRectangle(HandlesBrush, x - HandleHalfSize, y - HandleHalfSize, HandleHalfSize * 2, HandleHalfSize * 2);
+            return point.X >= Location.X && point.Y >= Location.Y &&
+                   point.X <= Location.X + Size.Width &&
+                   point.Y <= Location.Y + Size.Height;
         }
+
     }
 }

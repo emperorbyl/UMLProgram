@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace UMLProgram
 {
-    public class AddCommand : Command
+    public class AddSymbolCommand : Command
     {
         private const int NormalWidth = 80;
         private const int NormalHeight = 80;
@@ -15,7 +15,8 @@ namespace UMLProgram
         private readonly string _treeType;
         private Point _location;
         private readonly float _scale;
-        internal AddCommand() { }
+        private Symbol _treeAdded;
+        internal AddSymbolCommand() { }
 
         /// <summary>
         /// Constructor
@@ -25,7 +26,7 @@ namespace UMLProgram
         ///     [1]: string     tree type -- a fully qualified resource name
         ///     [2]: Point      center location for the tree, defaut = top left corner
         ///     [3]: float      scale factor</param>
-        internal AddCommand(params object[] commandParameters)
+        internal AddSymbolCommand(params object[] commandParameters)
         {
             if (commandParameters.Length > 0)
                 _treeType = commandParameters[0] as string;
@@ -41,9 +42,9 @@ namespace UMLProgram
                 _scale = 1.0F;
         }
 
-        public override void Execute()
+        public override bool Execute()
         {
-            if (string.IsNullOrWhiteSpace(_treeType) || TargetDrawing == null) return;
+            if (string.IsNullOrWhiteSpace(_treeType) || TargetDrawing == null) return false;
 
             var treeSize = new Size()
             {
@@ -52,14 +53,26 @@ namespace UMLProgram
             };
             var treeLocation = new Point(_location.X - treeSize.Width / 2, _location.Y - treeSize.Height / 2);
 
-            var extrinsicState = new SymbolExtrinsicState()
+            var extrinsicState = new SymbolExtrinsicState
             {
                 TreeType = _treeType,
                 Location = treeLocation,
                 Size = treeSize
             };
-            var tree = SymbolFactory.Instance.GetTree(extrinsicState);
-            TargetDrawing.Add(tree);
+            _treeAdded = SymbolFactory.Instance.GetSymbol(extrinsicState);
+            TargetDrawing.Add(_treeAdded);
+
+            return true;
+        }
+
+        internal override void Undo()
+        {
+            TargetDrawing.DeleteElement(_treeAdded);
+        }
+
+        internal override void Redo()
+        {
+            TargetDrawing.Add(_treeAdded);
         }
     }
 
