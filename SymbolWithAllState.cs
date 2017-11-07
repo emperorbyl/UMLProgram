@@ -11,11 +11,11 @@ namespace UMLProgram
     public class SymbolWithAllState : Symbol
     {
         public Pen OutlinePen { get; set; } = new Pen(Color.DarkGray);
-        internal SymbolWithIntrinsicState IntrinsicState { get; }
+        public SymbolWithIntrinsicState IntrinsicState { get; }
         [DataMember]
         public SymbolExtrinsicState ExtrinsicState { get; set; }
 
-        internal SymbolWithAllState(SymbolWithIntrinsicState sharedPart, SymbolExtrinsicState nonsharedPart)
+        public SymbolWithAllState(SymbolWithIntrinsicState sharedPart, SymbolExtrinsicState nonsharedPart)
         {
             IntrinsicState = sharedPart;                // From a decorator perspective, this is the decorated object
             ExtrinsicState = nonsharedPart;            // From a decorator perspective, this is the added feature or

@@ -29,23 +29,23 @@ namespace UMLProgram
         public string ResourceNamePattern { get; set; }
         public Type ReferenceType { get; set; }
 
-        private readonly Dictionary<string, SymbolWithIntrinsicState> _sharedTrees = new Dictionary<string, SymbolWithIntrinsicState>();
+        private readonly Dictionary<string, SymbolWithIntrinsicState> _sharedSymbols = new Dictionary<string, SymbolWithIntrinsicState>();
 
         public SymbolWithAllState GetSymbol(SymbolExtrinsicState extrinsicState)
         {
-            string resourceName = string.Format(ResourceNamePattern, extrinsicState.TreeType);
+            string resourceName = string.Format(ResourceNamePattern, extrinsicState.SymbolType);
 
-            SymbolWithIntrinsicState treeWithIntrinsicState;
-            if (_sharedTrees.ContainsKey(extrinsicState.TreeType))
-                treeWithIntrinsicState = _sharedTrees[extrinsicState.TreeType];
+            SymbolWithIntrinsicState symbolWithIntrinsicState;
+            if (_sharedSymbols.ContainsKey(extrinsicState.SymbolType))
+                symbolWithIntrinsicState = _sharedSymbols[extrinsicState.SymbolType];
             else
             {
-                treeWithIntrinsicState = new SymbolWithIntrinsicState();
-                treeWithIntrinsicState.LoadFromResource(resourceName, ReferenceType);
-                _sharedTrees.Add(extrinsicState.TreeType, treeWithIntrinsicState);
+                symbolWithIntrinsicState = new SymbolWithIntrinsicState();
+                symbolWithIntrinsicState.LoadFromResource(resourceName, ReferenceType);
+                _sharedSymbols.Add(extrinsicState.SymbolType, symbolWithIntrinsicState);
             }
 
-            return new SymbolWithAllState(treeWithIntrinsicState, extrinsicState);
+            return new SymbolWithAllState(symbolWithIntrinsicState, extrinsicState);
         }
     }
 }

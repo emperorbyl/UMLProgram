@@ -55,7 +55,7 @@ namespace UMLProgram
 
             var extrinsicState = new SymbolExtrinsicState
             {
-                TreeType = _treeType,
+                SymbolType = _treeType,
                 Location = treeLocation,
                 Size = treeSize
             };

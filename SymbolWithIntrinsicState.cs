@@ -9,10 +9,10 @@ using System.Reflection;
 
 namespace UMLProgram
 {
-    internal class SymbolWithIntrinsicState : Symbol
+    public class SymbolWithIntrinsicState : Symbol
     {
         public static Color SelectionBackgroundColor { get; set; } = Color.DarkKhaki;
-        public string TreeType { get; set; }
+        public string SymbolType { get; set; }
         public Bitmap Image { get; private set; }
         public Bitmap ToolImage { get; private set; }
         public Bitmap ToolImageSelected { get; private set; }
@@ -21,15 +21,15 @@ namespace UMLProgram
             return this;        // Don't really clone
         }
 
-        public void LoadFromResource(string treeType, Type referenceTypeForAssembly)
+        public void LoadFromResource(string symbolType, Type referenceTypeForAssembly)
         {
-            if (string.IsNullOrWhiteSpace(treeType)) return;
+            if (string.IsNullOrWhiteSpace(symbolType)) return;
 
             Assembly assembly = Assembly.GetAssembly(referenceTypeForAssembly);
 
             if (assembly == null) return;
 
-            using (Stream stream = assembly.GetManifestResourceStream(treeType))
+            using (Stream stream = assembly.GetManifestResourceStream(symbolType))
             {
                 if (stream != null)
                 {
@@ -49,7 +49,7 @@ namespace UMLProgram
             get { return false; }
             set
             {
-                throw new ApplicationException("Cannot select a tree with only intrinsic state - the intrinsic state is immutable");
+                throw new ApplicationException("Cannot select a symbol with only intrinsic state - the intrinsic state is immutable");
             }
         }
 
@@ -59,7 +59,7 @@ namespace UMLProgram
             get { return new Point(); }
             set
             {
-                throw new ApplicationException("Cannot change a tree with only intrinsic state - the intrinsic state is immutable");
+                throw new ApplicationException("Cannot change a symbol with only intrinsic state - the intrinsic state is immutable");
             }
         }
 
@@ -68,13 +68,13 @@ namespace UMLProgram
             get { return new Size(); }
             set
             {
-                throw new ApplicationException("Cannot change a tree with only intrinsic state - the intrinsic state is immutable");
+                throw new ApplicationException("Cannot change a symbol with only intrinsic state - the intrinsic state is immutable");
             }
         }
 
         public override void Draw(Graphics graphics)
         {
-            throw new ApplicationException("Cannot draw a tree with only intrinsic state");
+            throw new ApplicationException("Cannot draw a symbol with only intrinsic state");
         }
     }
 }

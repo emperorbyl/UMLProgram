@@ -9,7 +9,7 @@ using System.Runtime.Serialization;
 namespace UMLProgram
 {
     [DataContract]
-    class LabeledBox : Element
+    public class LabeledBox : Element
     {
         public static Pen LinePen { get; set; } = new Pen(Color.Black);
         public static Font TextFont { get; set; } = new Font("Arial", 16);

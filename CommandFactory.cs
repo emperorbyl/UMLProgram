@@ -62,6 +62,7 @@ namespace UMLProgram
             if (string.IsNullOrWhiteSpace(commandType)) return;
 
             if (TargetDrawing == null) return;
+            if (Invoker == null) return;
 
             Command command = null;
             switch (commandType.Trim().ToUpper())
@@ -69,9 +70,15 @@ namespace UMLProgram
                 case "NEW":
                     command = new NewCommand();
                     break;
-                case "ADD":
+                case "ADDSYMBOL":
                     command = new AddSymbolCommand(commandParameters);
                     break;
+                case "ADDBOX":
+                    command = new AddBoxCommand(commandParameters);
+                    break;
+                case "ADDLINE":
+                    command = new AddLineCommand(commandParameters);
+                    break; 
                 case "REMOVE":
                     command = new RemoveSelectedCommand();
                     break;

@@ -12,7 +12,7 @@ namespace UMLProgram
     public class SymbolExtrinsicState
     {
         [DataMember]
-        public string TreeType { get; set; }
+        public string SymbolType { get; set; }
 
         [DataMember]
         public Point Location { get; set; }
@@ -26,7 +26,7 @@ namespace UMLProgram
         {
             return new SymbolExtrinsicState()
             {
-                TreeType = TreeType,
+                SymbolType = SymbolType,
                 Location = Location,
                 Size = Size,
                 IsSelected = IsSelected
