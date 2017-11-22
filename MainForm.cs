@@ -27,7 +27,7 @@ namespace UMLProgram
         private enum PossibleModes
         {
             None,
-            TreeDrawing,
+            SymbolDrawing,
             LineDrawing,
             BoxDrawing,
             Selection
@@ -43,7 +43,7 @@ namespace UMLProgram
         {
             InitializeComponent();
 
-            SymbolFactory.Instance.ResourceNamePattern = @"Forests.Graphics.{0}.png";
+            SymbolFactory.Instance.ResourceNamePattern = @"UMLProgram.Graphics.{0}.png";
             SymbolFactory.Instance.ReferenceType = typeof(Program);
 
             _drawing = new Drawing();
@@ -122,7 +122,7 @@ namespace UMLProgram
                 _currentTreeResource = string.Empty;
 
             CommandFactory.Instance.CreateAndDo("deselect");
-            _mode = (_currentTreeResource != string.Empty) ? PossibleModes.TreeDrawing : PossibleModes.None;
+            _mode = (_currentTreeResource != string.Empty) ? PossibleModes.SymbolDrawing : PossibleModes.None;
         }
 
         private void drawingPanel_MouseUp(object sender, MouseEventArgs e)
@@ -153,9 +153,9 @@ namespace UMLProgram
                 case PossibleModes.LineDrawing:
                     CommandFactory.Instance.CreateAndDo("addline", _startingPoint, e.Location);
                     break;
-                case PossibleModes.TreeDrawing:
+                case PossibleModes.SymbolDrawing:
                     if (!string.IsNullOrWhiteSpace(_currentTreeResource))
-                        CommandFactory.Instance.CreateAndDo("addtree", _currentTreeResource, e.Location, _currentScale);
+                        CommandFactory.Instance.CreateAndDo("addsymbol", _currentTreeResource, e.Location, _currentScale);
                     break;
                 case PossibleModes.Selection:
                     CommandFactory.Instance.CreateAndDo("select", e.Location);
